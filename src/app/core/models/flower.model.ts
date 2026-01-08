@@ -18,6 +18,8 @@ export interface CartItem {
 
 export interface Order {
   id: string;
+  userId?: string;
+  userName?: string;
   items: CartItem[];
   totalPrice: number;
   status: OrderStatus;
@@ -27,10 +29,13 @@ export interface Order {
 
 export type OrderStatus = 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
 
+export type UserRole = 'user' | 'admin';
+
 export interface User {
   id: string;
   name: string;
   email: string;
+  role: UserRole;
   phone?: string;
   address?: string;
   avatarUrl?: string;

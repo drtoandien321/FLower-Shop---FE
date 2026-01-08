@@ -92,21 +92,7 @@ import { Flower } from '../../core/models/flower.model';
           </div>
         </div>
         
-        <!-- Decorative elements -->
-        <div class="decor decor-left">
-          <img 
-            src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=200" 
-            alt=""
-            aria-hidden="true"
-          />
-        </div>
-        <div class="decor decor-right">
-          <img 
-            src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=200" 
-            alt=""
-            aria-hidden="true"
-          />
-        </div>
+        
       </section>
 
       <!-- Featured Products Section -->

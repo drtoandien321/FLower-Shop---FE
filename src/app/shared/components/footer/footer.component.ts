@@ -7,7 +7,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     <footer class="footer">
       <div class="footer-container">
         <div class="footer-brand">
-          <h2 class="logo">Flower Go</h2>
+          <h2 class="logo">Ann Flower</h2>
           <p class="tagline">Beautiful flowers for every occasion</p>
         </div>
         

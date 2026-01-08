@@ -65,6 +65,12 @@ import { AuthService } from '../../../core/services/auth.service';
             </button>
           </form>
 
+          <div class="demo-info">
+            <p><strong>Demo Credentials:</strong></p>
+            <p>Admin: <code>admin@flowershop.com</code> / <code>admin123</code></p>
+            <p>User: Any email/password combination</p>
+          </div>
+
           <div class="divider">
             <span>Or</span>
           </div>
@@ -249,6 +255,29 @@ import { AuthService } from '../../../core/services/auth.service';
       gap: 1rem;
     }
 
+    .demo-info {
+      background: #f0f7ff;
+      border: 1px solid #b3d9ff;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+
+    .demo-info p {
+      margin: 0.25rem 0;
+      color: #333;
+    }
+
+    .demo-info code {
+      background: white;
+      padding: 0.125rem 0.375rem;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #7b1fa2;
+    }
+
     .social-btn {
       flex: 1;
       display: flex;
@@ -331,7 +360,12 @@ export class LoginComponent {
       this.isLoading.set(false);
       
       if (success) {
-        this.router.navigate(['/']);
+        // Redirect admin to admin panel, regular users to home
+        if (this.authService.isAdmin()) {
+          this.router.navigate(['/admin']);
+        } else {
+          this.router.navigate(['/']);
+        }
       } else {
         this.errorMessage.set('Invalid email or password');
       }

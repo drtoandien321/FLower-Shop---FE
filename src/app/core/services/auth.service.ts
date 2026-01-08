@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { User } from '../models/flower.model';
-import { MOCK_USER } from '../data/mock-data';
+import { MOCK_USER, MOCK_ADMIN } from '../data/mock-data';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +11,18 @@ export class AuthService {
 
   readonly user = computed(() => this.currentUser());
   readonly isLoggedIn = computed(() => this.isAuthenticated());
+  readonly isAdmin = computed(() => this.currentUser()?.role === 'admin');
 
   login(email: string, password: string): boolean {
     // Mock login - in real app, this would call an API
     if (email && password) {
+      // Check if admin login
+      if (email === 'admin@flowershop.com' && password === 'admin123') {
+        this.currentUser.set(MOCK_ADMIN);
+        this.isAuthenticated.set(true);
+        return true;
+      }
+      // Regular user login
       this.currentUser.set(MOCK_USER);
       this.isAuthenticated.set(true);
       return true;
@@ -28,7 +36,8 @@ export class AuthService {
       const newUser: User = {
         id: crypto.randomUUID(),
         name,
-        email
+        email,
+        role: 'user'
       };
       this.currentUser.set(newUser);
       this.isAuthenticated.set(true);

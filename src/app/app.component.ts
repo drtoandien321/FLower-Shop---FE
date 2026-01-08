@@ -1,20 +1,26 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { filter, map } from 'rxjs/operators';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, HeaderComponent, FooterComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="app-container">
-      <app-header />
-      <main class="main-content">
-        <router-outlet />
-      </main>
-      <app-footer />
-    </div>
+    @if (!isAdminRoute()) {
+      <div class="app-container">
+        <app-header />
+        <main class="main-content">
+          <router-outlet />
+        </main>
+        <app-footer />
+      </div>
+    } @else {
+      <router-outlet />
+    }
   `,
   styles: [`
     .app-container {
@@ -28,4 +34,14 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     }
   `]
 })
-export class AppComponent {}
+export class AppComponent {
+  private readonly router = inject(Router);
+  
+  protected readonly isAdminRoute = toSignal(
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map((event: NavigationEnd) => event.urlAfterRedirects.startsWith('/admin'))
+    ),
+    { initialValue: this.router.url.startsWith('/admin') }
+  );
+}
